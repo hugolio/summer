@@ -470,6 +470,14 @@ var summerHtmlImageMapCreator = (function() {
                 
                 domElements.img.onload = function() {
                     get_image.hideLoadIndicator().hide();
+					//
+					var scaleAspectRatio = calculateAspectRatioFit(domElements.img.width,domElements.img.height,1920,1080);
+					domElements.img.setAttribute('width', scaleAspectRatio.width);
+					domElements.img.setAttribute('height', scaleAspectRatio.height);
+					domElements.img.setAttribute('x', 800+'px');//1920-(scaleAspectRatio.width/2));
+					domElements.img.setAttribute('y', 1080+'px'-(scaleAspectRatio.height/2));
+					console.log(scaleAspectRatio);
+					//
                     app.show()
                        .setDimensions(1920,1080)//(domElements.img.width, domElements.img.height)
                        .recalcOffsetValues();
@@ -478,10 +486,6 @@ var summerHtmlImageMapCreator = (function() {
             },
             preview : (function() {
                 domElements.img.setAttribute('usemap', '#map');
-				//
-				domElements.img.setAttribute('width', 1920);
-				domElements.img.setAttribute('height', 1080);
-				//
                 domElements.map = document.createElement('map');
                 domElements.map.setAttribute('name', 'map');
                 domElements.container.appendChild(domElements.map);
@@ -637,6 +641,22 @@ var summerHtmlImageMapCreator = (function() {
         };
     })();
     
+	/**
+  * Conserve aspect ratio of the orignal region. Useful when shrinking/enlarging
+  * images to fit into a certain area.
+  *
+  * @param {Number} srcWidth width of source image
+  * @param {Number} srcHeight height of source image
+  * @param {Number} maxWidth maximum available width
+  * @param {Number} maxHeight maximum available height
+  * @return {Object} { width, height }
+  */
+	function calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
+	console.log('get aspect ratio');
+    var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+	console.log('ratio');
+    return { width: srcWidth*ratio, height: srcHeight*ratio };
+ }
     
     /**
      * The constructor for dom events (for simple deleting of event)

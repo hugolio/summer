@@ -158,6 +158,8 @@ a:link, a:visited {
 }
 #img {
     position: relative;
+	display: block;
+	margin: auto;
     z-index: 1;
 }
 #code {
