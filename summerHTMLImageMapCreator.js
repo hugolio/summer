@@ -471,13 +471,17 @@ var summerHtmlImageMapCreator = (function() {
                 domElements.img.onload = function() {
                     get_image.hideLoadIndicator().hide();
                     app.show()
-                       .setDimensions(domElements.img.width, domElements.img.height)
+                       .setDimensions(1920,1080)//(domElements.img.width, domElements.img.height)
                        .recalcOffsetValues();
                 };
                 return this;
             },
             preview : (function() {
                 domElements.img.setAttribute('usemap', '#map');
+				//
+				domElements.img.setAttribute('width', 1920);
+				domElements.img.setAttribute('height', 1080);
+				//
                 domElements.map = document.createElement('map');
                 domElements.map.setAttribute('name', 'map');
                 domElements.container.appendChild(domElements.map);
